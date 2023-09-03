@@ -1,0 +1,17 @@
+.searchFormContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin-top: 24px
+}
+
+.inputSearchForm {
+    flex-grow: 1;
+    margin-right: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    color: var(--white);
+    opacity: 0.7;
+    background: rgba(50, 50, 50, 0.80);
+}

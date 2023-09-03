@@ -1,0 +1,13 @@
+.myButton {
+    height: 57px;
+    width: 233px;
+    background-color: var(--red);
+    border-radius: 4px;
+    border: none;
+
+    color: #FFF;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
