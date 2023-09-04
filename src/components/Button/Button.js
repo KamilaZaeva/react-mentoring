@@ -1,7 +1,9 @@
 import './Button.css';
-export function Button({ title, onClick}) {
+export function Button({ title, onClick, className}) {
+    const fullClassName = 'myButton ' + (className ? className : '');
+
     return (
-        <button className="myButton" onClick={onClick}>
+        <button className={fullClassName} onClick={onClick}>
             {title}
         </button>
     );

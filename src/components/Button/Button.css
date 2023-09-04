@@ -10,4 +10,17 @@
     font-size: 20px;
     font-weight: 500;
     text-transform: uppercase;
+
+    cursor: pointer;
+}
+
+.genreItem {
+    background-color: var(--dark-grey);
+    width: 100%;
+    border-radius: 0;
+    box-sizing: content-box;
+}
+
+.selected {
+    border-bottom: 4px solid var(--red);
 }

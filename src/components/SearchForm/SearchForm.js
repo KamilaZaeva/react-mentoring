@@ -2,12 +2,11 @@ import {Button} from "../Button/Button";
 import './SearchForm.css';
 import {useState} from "react";
 
-export function SearchForm({ initialValue }) {
+export function SearchForm({ initialValue, searchMovie }) {
     const [searchText, setSearchText] = useState(initialValue ?? '');
 
-    function searchMovies() {
-        console.log('search movies with name:', searchText);
-        // TODO: will be implemented in future modules
+    function onSearchClick() {
+        searchMovie(searchText);
     }
 
     return (
@@ -20,11 +19,11 @@ export function SearchForm({ initialValue }) {
                 onKeyDown={(e) => {
                     if (e.code === 'Enter') {
                         e.stopPropagation();
-                        return searchMovies();
+                        return onSearchClick();
                     }
                 }}
             />
-            <Button title={'Search'} onClick={searchMovies}/>
+            <Button title={'Search'} onClick={onSearchClick}/>
         </div>
     );
 }
