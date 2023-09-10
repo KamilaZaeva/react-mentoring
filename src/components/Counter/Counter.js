@@ -1,19 +1,19 @@
-import { Component, createElement } from 'react';
+import { Component, createElement } from 'react'
 export class Counter extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
-            count: this.props.initialValue
+            count: this.props.initialValue,
         }
     }
 
     handleClick(type) {
         if (type === 'increase') {
-            this.setState({count: this.state.count + 1});
+            this.setState({ count: this.state.count + 1 })
         }
         if (type === 'decrease') {
-            this.setState({count: this.state.count - 1});
+            this.setState({ count: this.state.count - 1 })
         }
     }
 
@@ -21,24 +21,21 @@ export class Counter extends Component {
         return createElement(
             'div',
             { className: 'counterContainer' },
-            createElement(
-                'span',
-                null,
-                `Counter: ${ this.state.count }`
-            ),
+            createElement('span', null, `Counter: ${this.state.count}`),
             createElement(
                 'div',
-            null,
-                createElement('button',
+                null,
+                createElement(
+                    'button',
                     { onClick: () => this.handleClick('increase'), type: 'button' },
-                    'Increase'
+                    'Increase',
                 ),
                 createElement(
                     'button',
                     { onClick: () => this.handleClick('decrease'), type: 'button' },
-                    'Decrease'
-                )
-            )
-        );
-    };
+                    'Decrease',
+                ),
+            ),
+        )
+    }
 }
