@@ -1,6 +1,8 @@
 import './GenreSelect.css';
+
 import { useState } from 'react';
-import { Button } from '../Button/Button';
+
+import Button from '../Button/Button';
 
 type GenreSelectProps = {
     listGenres: string[];
@@ -8,7 +10,7 @@ type GenreSelectProps = {
     onSelect: (genre: string) => void;
 };
 
-export const GenreSelect = ({ listGenres, selectedGenre, onSelect }: GenreSelectProps) => {
+const GenreSelect = ({ listGenres, selectedGenre, onSelect }: GenreSelectProps) => {
     const [activeGenre, setActiveGenre] = useState(selectedGenre);
 
     const onGenreClick = (genre: string): void => {
@@ -30,3 +32,5 @@ export const GenreSelect = ({ listGenres, selectedGenre, onSelect }: GenreSelect
 
     return <div className='genresContainer'>{genreItems}</div>;
 };
+
+export default GenreSelect;

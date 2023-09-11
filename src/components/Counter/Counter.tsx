@@ -8,7 +8,6 @@ type CounterState = {
     count: number;
 };
 
-
 export default class Counter extends Component<CounterProps, CounterState> {
     constructor(props: CounterProps) {
         super(props);

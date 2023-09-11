@@ -1,6 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SearchForm } from './SearchForm';
+
+import SearchForm from './SearchForm';
 
 describe('SearchForm', () => {
     it('should render an input with the value equal to initial value passed in props', () => {
