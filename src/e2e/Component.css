@@ -18,12 +18,12 @@
 
 a {
     font-weight: 500;
-    color: #EA5906;
+    color: #ea5906;
     text-decoration: inherit;
 }
 
 a:hover {
-    color: #EA5906;
+    color: #ea5906;
 }
 
 body {
@@ -52,7 +52,7 @@ button {
 }
 
 button:hover {
-    border-color: #EA5906;
+    border-color: #ea5906;
 }
 
 button:focus,
@@ -67,7 +67,7 @@ button:focus-visible {
     }
 
     a:hover {
-        color: #EA590633;
+        color: #ea590633;
     }
 
     button {
@@ -89,7 +89,7 @@ button:focus-visible {
 }
 
 .logo:hover {
-    filter: drop-shadow(0 0 2em #EA5906aa);
+    filter: drop-shadow(0 0 2em #ea5906aa);
 }
 
 .logo.react:hover {

@@ -1,22 +1,22 @@
-import './App.css'
-import './colors.css'
+import './App.css';
+import './colors.css';
 
-import { Counter } from './components/Counter/Counter'
-import { SearchForm } from './components/SearchForm/SearchForm'
-import { GenreSelect } from './components/GenreSelect/GenreSelect'
+import Counter from './components/Counter/Counter';
+import { SearchForm } from './components/SearchForm/SearchForm';
+import { GenreSelect } from './components/GenreSelect/GenreSelect';
 
-import { GENRES } from './consts'
+import { GENRES } from './consts';
 
 function App() {
     const searchMovieByName = (name: string): void => {
         // TODO: will be implemented in future modules
-        console.log('Search movies with name:', name)
-    }
+        console.log('Search movies with name:', name);
+    };
 
     const showGenreMovies = (selectedGenre: string): void => {
         // TODO: will be implemented in future modules
-        console.log('Show movies of', selectedGenre, 'genre')
-    }
+        console.log('Show movies of', selectedGenre, 'genre');
+    };
 
     return (
         <div className='App'>
@@ -28,7 +28,7 @@ function App() {
                 onSelect={(genre: string) => showGenreMovies(genre)}
             />
         </div>
-    )
+    );
 }
 
-export default App
+export default App;

@@ -1,18 +1,18 @@
-import { Button } from '../Button/Button'
-import './SearchForm.css'
-import { useState } from 'react'
+import { Button } from '../Button/Button';
+import './SearchForm.css';
+import { useState } from 'react';
 
 type SearchFormProps = {
-    initialValue: string
-    searchMovie: (searchText: string) => void
-}
+    initialValue: string;
+    searchMovie: (searchText: string) => void;
+};
 
 export const SearchForm = ({ initialValue, searchMovie }: SearchFormProps) => {
-    const [searchText, setSearchText] = useState(initialValue ?? '')
+    const [searchText, setSearchText] = useState(initialValue ?? '');
 
     const onSearchClick = (): void => {
-        searchMovie(searchText)
-    }
+        searchMovie(searchText);
+    };
 
     return (
         <div className='searchFormContainer'>
@@ -23,12 +23,12 @@ export const SearchForm = ({ initialValue, searchMovie }: SearchFormProps) => {
                 placeholder='What do you want to watch?'
                 onKeyDown={(e) => {
                     if (e.code === 'Enter') {
-                        e.stopPropagation()
-                        return onSearchClick()
+                        e.stopPropagation();
+                        return onSearchClick();
                     }
                 }}
             />
             <Button title={'Search'} onClick={onSearchClick} />
         </div>
-    )
-}
+    );
+};
