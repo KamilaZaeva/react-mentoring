@@ -30,18 +30,18 @@ export default class Counter extends Component<CounterProps, CounterState> {
         return createElement(
             'div',
             { className: 'counterContainer' },
-            createElement('span', null, `Counter: ${this.state.count}`),
+            createElement('span', {className: 'counter'}, `Counter: ${this.state.count}`),
             createElement(
                 'div',
                 null,
                 createElement(
                     'button',
-                    { onClick: () => this.handleClick('increase'), type: 'button' },
+                    { onClick: () => this.handleClick('increase'), type: 'button', className: 'increaseButton' },
                     'Increase',
                 ),
                 createElement(
                     'button',
-                    { onClick: () => this.handleClick('decrease'), type: 'button' },
+                    { onClick: () => this.handleClick('decrease'), type: 'button', className: 'decreaseButton' },
                     'Decrease',
                 ),
             ),

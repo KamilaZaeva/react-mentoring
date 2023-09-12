@@ -14,5 +14,5 @@
     "rules": {
         "@typescript-eslint/strict-boolean-expressions": 0
     },
-    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*", "cypress/**/*"]
 }
