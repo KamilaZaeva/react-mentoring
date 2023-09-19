@@ -4,8 +4,9 @@ import './colors.css';
 import Counter from './components/Counter/Counter';
 import SearchForm from './components/SearchForm/SearchForm';
 import GenreSelect from './components/GenreSelect/GenreSelect';
+import MovieTile from './components/MovieTile/MovieTile';
 
-import { GENRES } from './consts';
+import { GENRES, MOVIES } from './consts';
 
 function App() {
     const searchMovieByName = (name: string): void => {
@@ -27,6 +28,20 @@ function App() {
                 listGenres={GENRES}
                 onSelect={(genre: string) => showGenreMovies(genre)}
             />
+            <div className='moviesList'>
+                {MOVIES.map((movie) => {
+                    return (
+                        <MovieTile
+                            onClickMovie={(name) => console.log(name)}
+                            genres={movie.genres}
+                            movieName={movie.movieName}
+                            id={movie.id}
+                            imageUrl={movie.imageUrl}
+                            releaseYear={movie.releaseYear}
+                        />
+                    );
+                })}
+            </div>
         </div>
     );
 }
