@@ -1,6 +1,6 @@
 import './MovieTile.css';
 
-type MovieTileProps = {
+export type MovieTileProps = {
     id: number;
     imageUrl: string;
     movieName: string;
@@ -15,7 +15,7 @@ const MovieTile = ({ imageUrl, movieName, releaseYear, genres, onClickMovie }: M
     return (
         <button className="movieTile" onClick={() => onClickMovie(movieName)}>
             <img className="movieTile__poster" src={imageUrl} alt={movieName} />
-            <div className="movieTile__name-container">
+            <div className="movieTile__nameContainer">
                 <div className="movieName">{movieName}</div>
                 <div className="movieYear">{releaseYear}</div>
             </div>

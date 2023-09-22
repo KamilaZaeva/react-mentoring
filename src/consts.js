@@ -18,7 +18,7 @@ export const MOVIES = [
     {
         id: 376093,
         movieName: 'Bohemian Rhapsody',
-        vote_average: '7.9',
+        vote_average: 7.9,
         releaseYear: 2018,
         imageUrl: String(pic2),
         overview: `The story of the legendary British rock band Queen and lead singer Freddie Mercury, leading up to their famous performance at Live Aid (1985).`,

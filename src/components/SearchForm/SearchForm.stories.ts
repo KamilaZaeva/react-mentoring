@@ -7,6 +7,9 @@ import SearchForm from './SearchForm';
 const meta = {
     title: 'SearchForm',
     component: SearchForm,
+    parameters: {
+        backgrounds: { default: 'darkGrey' }
+    },
 } satisfies Meta<typeof SearchForm>;
 
 export default meta;

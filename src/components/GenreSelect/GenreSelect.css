@@ -1,4 +1,11 @@
 .genresContainer {
+    width: 100%;
     display: flex;
-    margin-top: 24px;
+    gap: 30px;
+    margin: 24px 0;
+}
+
+.genreItem {
+    width: fit-content;
+    background: var(--black);
 }
