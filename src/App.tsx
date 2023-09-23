@@ -1,21 +1,21 @@
 import './App.css';
 import './colors.css';
 
+import { useState } from 'react';
+
 // import Counter from './components/Counter/Counter';
 import SearchForm from './components/SearchForm/SearchForm';
 import GenreSelect from './components/GenreSelect/GenreSelect';
 import MovieTile from './components/MovieTile/MovieTile';
+import MovieDetails, { MovieDetailsProps } from './components/MovieDetails/MovieDetails';
+import SortControl from './components/SortControl/SortControl';
 
 import { GENRES, MOVIES } from './consts';
-import MovieDetails, { MovieDetailsProps } from './components/MovieDetails/MovieDetails';
-import { useState } from 'react';
 
 function App() {
     const [showDetailContainer, setShowDetailContainer] = useState(false);
     const [selectedMovieProps, setSelectedMovieProps] = useState({} as MovieDetailsProps);
 
-    // let showDetailContainer = false;
-    // let selectedMovieProps: MovieDetailsProps;
     const searchMovieByName = (name: string): void => {
         // TODO: will be implemented in future modules
         console.log('Search movies with name:', name);
@@ -43,7 +43,15 @@ function App() {
 
     const closeDetailInfo = (): void => {
         setShowDetailContainer(false);
-    }
+    };
+
+    const sortMoviesBy = (sortedBy: 'releaseDate' | 'title'): void => {
+        if (sortedBy === 'releaseDate') {
+            console.log('sorted by releaseDate');
+        } else {
+            console.log('sorted by title');
+        }
+    };
 
     const HeaderContainer = () => {
         if (showDetailContainer) {
@@ -72,11 +80,19 @@ function App() {
                 <HeaderContainer />
                 {/*<Counter initialValue={0} />*/}
                 <main className='App__body'>
-                    <GenreSelect
-                        selectedGenre='all'
-                        listGenres={GENRES}
-                        onSelect={(genre: string) => showGenreMovies(genre)}
-                    />
+                    <div className='sortFilterLine'>
+                        <GenreSelect
+                            selectedGenre='all'
+                            listGenres={GENRES}
+                            onSelect={(genre: string) => showGenreMovies(genre)}
+                        />
+                        <SortControl
+                            currentSelection='releaseDate'
+                            onSortChange={(selectedSortValue: 'releaseDate' | 'title') =>
+                                sortMoviesBy(selectedSortValue)
+                            }
+                        />
+                    </div>
                     <div className='moviesList'>
                         {MOVIES.map((movie) => {
                             return (

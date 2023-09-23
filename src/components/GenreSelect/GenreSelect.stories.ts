@@ -7,6 +7,10 @@ import GenreSelect from './GenreSelect';
 const meta = {
     title: 'GenreSelect',
     component: GenreSelect,
+    parameters: {
+        layout: 'centered',
+        backgrounds: { default: 'blackGrey' },
+    },
 } satisfies Meta<typeof GenreSelect>;
 
 export default meta;

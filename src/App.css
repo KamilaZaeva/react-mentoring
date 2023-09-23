@@ -81,3 +81,9 @@
         align-items: center;
     }
 }
+
+.sortFilterLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
