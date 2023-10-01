@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Story: Story = {
     name: "Default",
     args: {
-        message: "My Dialog",
+        title: "My Dialog",
         children: <p>Test body</p>,
         onClose: () => console.log('Close dialog'),
     }

@@ -1,0 +1,44 @@
+.form-edit-movie .dialog-body {
+    width: 950px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.col-left {
+    width: 60%;
+    margin-right: 30px;
+}
+
+.col-right {
+    width: 40%;
+}
+
+.form-item {
+    width: 100%;
+}
+.form-item label {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--red);
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+}
+
+.form-item input,
+.form-item textarea,
+.form-item select {
+    margin-top: 15px;
+    border: none;
+    font: inherit;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--white);
+    background: var(--dark-grey);
+    border-radius: 4px;
+    padding: 16px;
+}
