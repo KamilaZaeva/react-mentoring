@@ -33,7 +33,7 @@ function App() {
             imageUrl: selectedMovie.imageUrl,
             movieName: selectedMovie.movieName,
             releaseYear: selectedMovie.releaseYear,
-            rating: selectedMovie.vote_average,
+            rating: selectedMovie.voteAverage,
             description: selectedMovie.overview,
             duration: selectedMovie.runtime,
         });
@@ -54,23 +54,24 @@ function App() {
     };
 
     const HeaderContainer = () => {
-        if (showDetailContainer) {
-            return (
-                <>
-                    <span className='exitButton' onClick={() => closeDetailInfo()}></span>
-                    <MovieDetails {...selectedMovieProps} />
-                </>
-            );
-        }
         return (
-            <div className='App__headerContainer'>
-                <div className='App__blurContainer'></div>
-                <h1 className='App__headerTitle'>FIND YOUR MOVIE</h1>
-                <SearchForm
-                    initialValue=''
-                    searchMovie={(name: string) => searchMovieByName(name)}
-                />
-            </div>
+            <>
+                {showDetailContainer ? (
+                    <>
+                        <span className='exitButton' onClick={() => closeDetailInfo()}></span>
+                        <MovieDetails {...selectedMovieProps} />
+                    </>
+                ) : (
+                    <div className='App__headerContainer'>
+                        <div className='App__blurContainer'></div>
+                        <h1 className='App__headerTitle'>FIND YOUR MOVIE</h1>
+                        <SearchForm
+                            initialValue=''
+                            searchMovie={(name: string) => searchMovieByName(name)}
+                        />
+                    </div>
+                )}
+            </>
         );
     };
 
