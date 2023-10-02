@@ -7,6 +7,7 @@ const meta = {
     component: MovieForm,
     parameters: {
         layout: 'centered',
+        backgrounds: { default: 'blackGrey' },
     },
 } satisfies Meta<typeof MovieForm>;
 

@@ -14,7 +14,7 @@ const Dialog = ({ title, children, onClose }: DialogProps) => {
         <div className='dialog'>
             <h2 className='dialogTitle'>{title}</h2>
             {children}
-            <span className='exitButton' onClick={onClose}></span>
+            <span className='exitButton' onClick={onClose} data-testid="exit-button"></span>
         </div>,
         document.body,
     );

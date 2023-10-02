@@ -26,7 +26,7 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
         event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     ) => {
         const { name, value } = event.target;
-        updateEditedMovie((prevFormData) => ({ ...prevFormData, [name]: value }));
+        updateEditedMovie((prevFormData) => ({ ...prevFormData, [name]: name === 'releaseYear' || name === 'duration' ? parseInt(value, 10) : value }));
     };
 
     return (
