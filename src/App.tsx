@@ -28,26 +28,16 @@ function App() {
         console.log('Show movies of', selectedGenre, 'genre');
     };
 
-    const openDetailInfo = (movieName: string): void => {
-        const selectedMovie: Movie = MOVIES.filter((movie) => movie.movieName === movieName)[0];
+    const openDetailInfo = (openMovieName: string): void => {
+        const selectedMovie: Movie = MOVIES.filter((movie) => movie.movieName === openMovieName)[0];
 
-        setSelectedMovieProps({
-            imageUrl: selectedMovie.imageUrl,
-            movieName: selectedMovie.movieName,
-            releaseYear: selectedMovie.releaseYear,
-            voteAverage: selectedMovie.voteAverage,
-            description: selectedMovie.description,
-            duration: selectedMovie.duration,
-            genres: selectedMovie.genres,
-        });
+        setSelectedMovieProps({ ...selectedMovie });
 
-        setShowDetailContainer(true);
+        toggleDetailedContainer();
         setShowEditDialog(true);
     };
 
-    const closeDetailInfo = (): void => {
-        setShowDetailContainer(false);
-    };
+    const toggleDetailedContainer = () => setShowDetailContainer((prevState) => !prevState);
 
     const sortMoviesBy = (sortedBy: 'releaseDate' | 'title'): void => {
         if (sortedBy === 'releaseDate') {
@@ -62,7 +52,7 @@ function App() {
             <>
                 {showDetailContainer ? (
                     <>
-                        <span className='exitButton' onClick={() => closeDetailInfo()}></span>
+                        <span className='exitButton' onClick={() => toggleDetailedContainer()}></span>
                         <MovieDetails {...selectedMovieProps} />
                     </>
                 ) : (
