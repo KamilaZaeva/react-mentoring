@@ -1,0 +1,43 @@
+.sortControl {
+    display: flex;
+    align-items: flex-end;
+    font-size: 16px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 300;
+
+    .sortControl__label {
+        color: var(--grey);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        text-transform: uppercase;
+    }
+
+    .sortControl__select {
+        margin-left: 30px;
+        padding-right: 20px;
+        background-color: transparent;
+        border: none;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: var(--white);
+        position: relative;
+        display: block;
+        /*background-image: none;*/
+
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url('../../assets/Fill_1.svg');
+        background-repeat: no-repeat, repeat;
+        background-position: right 0 top 50%, 0 0;
+        background-size: 8px auto, 100%;
+    }
+
+    .sortControl__option {
+        background: var(--grey);
+    }
+}

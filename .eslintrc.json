@@ -3,10 +3,16 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-type-checked"
+        "plugin:@typescript-eslint/recommended-type-checked",
+        "plugin:storybook/recommended",
+        "plugin:storybook/recommended"
     ],
     "parser": "@typescript-eslint/parser",
-    "parserOptions": { "project": ["./tsconfig.json"] },
+    "parserOptions": {
+        "project": [
+            "./tsconfig.json"
+        ]
+    },
     "plugins": [
         "react",
         "@typescript-eslint"
@@ -14,5 +20,9 @@
     "rules": {
         "@typescript-eslint/strict-boolean-expressions": 0
     },
-    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*", "cypress/**/*"]
+    "ignorePatterns": [
+        "src/**/*.test.ts",
+        "src/frontend/generated/*",
+        "cypress/**/*"
+    ]
 }
