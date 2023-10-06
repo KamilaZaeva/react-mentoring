@@ -7,15 +7,17 @@ import { useState } from 'react';
 import SearchForm from './components/SearchForm/SearchForm';
 import GenreSelect from './components/GenreSelect/GenreSelect';
 import MovieTile from './components/MovieTile/MovieTile';
-import MovieDetails, { MovieDetailsProps } from './components/MovieDetails/MovieDetails';
+import MovieDetails from './components/MovieDetails/MovieDetails';
 import SortControl from './components/SortControl/SortControl';
 
 import { GENRES, MOVIES } from './consts';
+import EditMovieDialog from './components/EditMovieDialog/EditMovieDialog';
+import { Movie } from './models/movie';
 
 function App() {
     const [showDetailContainer, setShowDetailContainer] = useState(false);
-    const [selectedMovieProps, setSelectedMovieProps] = useState({} as MovieDetailsProps);
-
+    const [selectedMovieProps, setSelectedMovieProps] = useState({} as Movie);
+    const [showEditDialog, setShowEditDialog] = useState(false);
     const searchMovieByName = (name: string): void => {
         // TODO: will be implemented in future modules
         console.log('Search movies with name:', name);
@@ -26,24 +28,16 @@ function App() {
         console.log('Show movies of', selectedGenre, 'genre');
     };
 
-    const openDetailInfo = (movieName: string): void => {
-        const selectedMovie = MOVIES.filter((movie) => movie.movieName === movieName)[0];
+    const openDetailInfo = (openMovieName: string): void => {
+        const selectedMovie: Movie = MOVIES.filter((movie) => movie.movieName === openMovieName)[0];
 
-        setSelectedMovieProps({
-            imageUrl: selectedMovie.imageUrl,
-            movieName: selectedMovie.movieName,
-            releaseYear: selectedMovie.releaseYear,
-            rating: selectedMovie.vote_average,
-            description: selectedMovie.overview,
-            duration: selectedMovie.runtime,
-        });
+        setSelectedMovieProps({ ...selectedMovie });
 
-        setShowDetailContainer(true);
+        toggleDetailedContainer();
+        setShowEditDialog(true);
     };
 
-    const closeDetailInfo = (): void => {
-        setShowDetailContainer(false);
-    };
+    const toggleDetailedContainer = () => setShowDetailContainer((prevState) => !prevState);
 
     const sortMoviesBy = (sortedBy: 'releaseDate' | 'title'): void => {
         if (sortedBy === 'releaseDate') {
@@ -54,23 +48,24 @@ function App() {
     };
 
     const HeaderContainer = () => {
-        if (showDetailContainer) {
-            return (
-                <>
-                    <span className='exitButton' onClick={() => closeDetailInfo()}></span>
-                    <MovieDetails {...selectedMovieProps} />
-                </>
-            );
-        }
         return (
-            <div className='App__headerContainer'>
-                <div className='App__blurContainer'></div>
-                <h1 className='App__headerTitle'>FIND YOUR MOVIE</h1>
-                <SearchForm
-                    initialValue=''
-                    searchMovie={(name: string) => searchMovieByName(name)}
-                />
-            </div>
+            <>
+                {showDetailContainer ? (
+                    <>
+                        <span className='exitButton' onClick={() => toggleDetailedContainer()}></span>
+                        <MovieDetails {...selectedMovieProps} />
+                    </>
+                ) : (
+                    <div className='App__headerContainer'>
+                        <div className='App__blurContainer'></div>
+                        <h1 className='App__headerTitle'>FIND YOUR MOVIE</h1>
+                        <SearchForm
+                            initialValue=''
+                            searchMovie={(name: string) => searchMovieByName(name)}
+                        />
+                    </div>
+                )}
+            </>
         );
     };
 
@@ -96,18 +91,30 @@ function App() {
                     <div className='moviesList'>
                         {MOVIES.map((movie) => {
                             return (
-                                <MovieTile
-                                    key={movie.id}
-                                    onClickMovie={(name) => openDetailInfo(name)}
-                                    genres={movie.genres}
-                                    movieName={movie.movieName}
-                                    id={movie.id}
-                                    imageUrl={movie.imageUrl}
-                                    releaseYear={movie.releaseYear}
-                                />
+                                <>
+                                    <MovieTile
+                                        key={movie.id}
+                                        onClickMovie={(name) => openDetailInfo(name)}
+                                        genres={movie.genres}
+                                        movieName={movie.movieName}
+                                        id={movie.id}
+                                        imageUrl={movie.imageUrl}
+                                        releaseYear={movie.releaseYear}
+                                    />
+                                </>
                             );
                         })}
                     </div>
+
+                    {showEditDialog && (
+                        <EditMovieDialog
+                            onClose={() => setShowEditDialog(false)}
+                            onReset={() => setShowEditDialog(false)}
+                            movie={selectedMovieProps}
+                            title='Edit movie'
+                            onSubmit={(result) => console.log('submit: ', result)}
+                        ></EditMovieDialog>
+                    )}
                 </main>
             </div>
         </div>

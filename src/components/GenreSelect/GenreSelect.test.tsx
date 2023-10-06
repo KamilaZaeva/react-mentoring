@@ -1,15 +1,16 @@
-import { act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import GenreSelect from './GenreSelect';
 
 describe('GenreSelect', () => {
     it("should render all genres passed in props'", () => {
         const listGenres = ['Action', 'Adventure', 'Comedy'];
-        render(<GenreSelect listGenres={listGenres} selectedGenre='' onSelect={() => {}} />);
+        const { getByText } = render(
+            <GenreSelect listGenres={listGenres} selectedGenre='' onSelect={() => {}} />,
+        );
 
         listGenres.forEach((genre) => {
-            const genreButton = screen.getByText(genre);
+            const genreButton = getByText(genre);
             expect(genreButton).toBeInTheDocument();
         });
     });
@@ -42,9 +43,7 @@ describe('GenreSelect', () => {
 
         listGenres.forEach((genre) => {
             const genreButton = screen.getByText(genre);
-            act(() => {
-                userEvent.click(genreButton);
-            });
+            fireEvent.click(genreButton);
             expect(onSelectMock).toHaveBeenCalledWith(genre);
         });
     });

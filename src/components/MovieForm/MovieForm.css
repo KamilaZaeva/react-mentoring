@@ -1,0 +1,67 @@
+.formEditMovie .dialogBody {
+    width: 950px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.colLeft {
+    width: 60%;
+    margin-right: 30px;
+}
+
+.colRight {
+    width: 40%;
+}
+
+.formItem {
+    width: 100%;
+}
+.formItem label {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--red);
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+}
+
+.formItem input,
+.formItem textarea,
+.formItem select {
+    margin-top: 15px;
+    border: none;
+    font: inherit;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--white);
+    background: var(--dark-grey);
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.inputForm {
+    flex-grow: 1;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    color: var(--white);
+    background: var(--black);
+}
+
+.selectInputForm {
+    width: 100%;
+}
+
+.selectInputForm__grey {
+    color: #757575 !important;
+}
+
+.dialogFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}

@@ -1,5 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import Counter from './Counter';
 
@@ -12,18 +11,14 @@ describe('Counter', () => {
 
     it('should increment value when `increase` button pressed', () => {
         const { getByText } = render(<Counter initialValue={0} />);
-        act(() => {
-            userEvent.click(screen.getByText('Increase'));
-        });
+        fireEvent.click(screen.getByText('Increase'));
         const expectedText = /Counter: 1/i;
         expect(getByText(expectedText)).toBeInTheDocument();
     });
 
     it('should decrement value when `decrease` button pressed', () => {
         const { getByText } = render(<Counter initialValue={10} />);
-        act(() => {
-            userEvent.click(screen.getByText('Decrease'));
-        });
+        fireEvent.click(screen.getByText('Decrease'));
         const expectedText = /Counter: 9/i;
         expect(getByText(expectedText)).toBeInTheDocument();
     });
