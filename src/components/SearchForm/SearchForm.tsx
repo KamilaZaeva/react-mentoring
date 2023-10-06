@@ -1,34 +1,41 @@
-import { Button } from '../Button/Button'
-import './SearchForm.css'
-import { useState } from 'react'
+import './SearchForm.css';
+
+import { useState } from 'react';
+
+import Button from '../Button/Button';
 
 type SearchFormProps = {
-    initialValue: string
-    searchMovie: (searchText: string) => void
-}
+    initialValue: string;
+    searchMovie: (searchText: string) => void;
+};
 
-export const SearchForm = ({ initialValue, searchMovie }: SearchFormProps) => {
-    const [searchText, setSearchText] = useState(initialValue ?? '')
+const SearchForm = ({ initialValue, searchMovie }: SearchFormProps) => {
+    const [searchText, setSearchText] = useState(initialValue ?? '');
 
     const onSearchClick = (): void => {
-        searchMovie(searchText)
-    }
+        searchMovie(searchText);
+    };
+
+    const handleKeyDown = (keyboardEventCode: string): void => {
+        if (keyboardEventCode === 'Enter') {
+            return onSearchClick();
+        }
+    };
 
     return (
         <div className='searchFormContainer'>
             <input
+                id='searchInput'
+                type='text'
                 className='inputSearchForm'
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 placeholder='What do you want to watch?'
-                onKeyDown={(e) => {
-                    if (e.code === 'Enter') {
-                        e.stopPropagation()
-                        return onSearchClick()
-                    }
-                }}
+                onKeyDown={(e) => handleKeyDown(e.code)}
             />
-            <Button title={'Search'} onClick={onSearchClick} />
+            <Button title='Search' onClick={onSearchClick} />
         </div>
-    )
-}
+    );
+};
+
+export default SearchForm;

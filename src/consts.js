@@ -1,1 +1,1 @@
-export const GENRES = ['all', 'documentary', 'comedy', 'horror', 'crime']
+export const GENRES = ['all', 'documentary', 'comedy', 'horror', 'crime'];
