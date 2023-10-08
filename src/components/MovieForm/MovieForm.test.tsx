@@ -4,6 +4,7 @@ import MovieForm, { MovieFormProps } from './MovieForm'; // Import your MovieFor
 
 describe('MovieForm Component', () => {
     const mockMovie = {
+        id: 123456,
         movieName: 'Test Movie',
         releaseYear: 2022,
         movieUrl: 'http://example.com',

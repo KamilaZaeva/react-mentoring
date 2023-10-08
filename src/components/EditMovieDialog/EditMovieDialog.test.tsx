@@ -18,6 +18,7 @@ jest.mock('../MovieForm/MovieForm', () => ({ movie, onSubmit, onReset }: any) =>
 
 describe('EditMovieDialog Component', () => {
     const mockMovie: Movie = {
+        id: 123456,
         imageUrl: 'example.jpg',
         movieName: 'Test Movie',
         releaseYear: 2022,

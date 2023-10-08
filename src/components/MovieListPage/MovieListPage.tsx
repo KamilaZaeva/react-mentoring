@@ -1,7 +1,7 @@
 import './MovieListPage.css';
 import '../../colors.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import GenreSelect from '../GenreSelect/GenreSelect';
 import SortControl from '../SortControl/SortControl';
@@ -10,45 +10,61 @@ import EditMovieDialog from '../EditMovieDialog/EditMovieDialog';
 import MovieDetails from '../MovieDetails/MovieDetails';
 import SearchForm from '../SearchForm/SearchForm';
 
+import { getMovies } from '../../services/api.service';
+
 import { Movie } from '../../models/movie';
 
-import { GENRES, MOVIES } from '../../consts';
+import { GENRES } from '../../consts';
 
 const MovieListPage = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [sortCriterion, setSortCriterion] = useState('releaseDate');
-    const [showDetailContainer, setShowDetailContainer] = useState(false);
-    const [selectedMovieProps, setSelectedMovieProps] = useState({} as Movie);
-    const [showEditDialog, setShowEditDialog] = useState(false);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [sortCriterion, setSortCriterion] = useState<'releaseDate' | 'title'>('releaseDate');
+    const [activeGenre, setActiveGenre] = useState<string>('all');
+    const [movieList, setMovieList] = useState<Movie[]>([] as Movie[]);
+    const [showDetailContainer, setShowDetailContainer] = useState<boolean>(false);
+    const [selectedMovie, setSelectedMovie] = useState<Movie>({} as Movie);
+    const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
+
+    useEffect(() => {
+        void getMovies(searchQuery, sortCriterion, activeGenre).then((data) => {
+            const formatMovieList: Movie[] = data.data.map((movieApi) => ({
+                id: movieApi.id,
+                movieName: movieApi.title,
+                releaseYear: +movieApi.release_date.split('-')[0],
+                genres: movieApi.genres,
+                voteAverage: movieApi.vote_average,
+                description: movieApi.overview,
+                duration: movieApi.runtime,
+                imageUrl: movieApi.poster_path,
+            }));
+            setMovieList(formatMovieList);
+        });
+    }, [searchQuery, sortCriterion, activeGenre]);
+
     const searchMovieByName = (name: string): void => {
         setSearchQuery(name);
-        // TODO: will be implemented in future modules
-        console.log('Search movies with name:', name);
     };
 
     const showGenreMovies = (selectedGenre: string): void => {
-        // TODO: will be implemented in future modules
-        console.log('Show movies of', selectedGenre, 'genre');
+        setActiveGenre(selectedGenre);
     };
-    const openDetailInfo = (openMovieName: string): void => {
-        const selectedMovie: Movie = MOVIES.filter((movie) => movie.movieName === openMovieName)[0];
+    const openDetailInfo = (openMovieId: number): void => {
+        const selectedMovie: Movie = movieList.filter((movie) => movie.id === openMovieId)[0];
 
-        setSelectedMovieProps({ ...selectedMovie });
+        setSelectedMovie({ ...selectedMovie });
 
-        toggleDetailedContainer();
-        setShowEditDialog(true);
+        toggleDetailedContainer(true);
+        window.scrollTo(0, 0);
+        // setShowEditDialog(true);
     };
 
-    const toggleDetailedContainer = () => setShowDetailContainer((prevState) => !prevState);
+    const toggleDetailedContainer = (show?: boolean) =>
+        setShowDetailContainer((prevState) => (show === undefined ? !prevState : show));
 
     const sortMoviesBy = (sortedBy: 'releaseDate' | 'title'): void => {
         setSortCriterion(sortedBy);
-        // if (sortedBy === 'releaseDate') {
-        //     console.log('sorted by releaseDate');
-        // } else {
-        //     console.log('sorted by title');
-        // }
     };
+
     const HeaderContainer = () => {
         return (
             <>
@@ -58,7 +74,7 @@ const MovieListPage = () => {
                             className='exitButton'
                             onClick={() => toggleDetailedContainer()}
                         ></span>
-                        <MovieDetails {...selectedMovieProps} />
+                        <MovieDetails {...selectedMovie} />
                     </>
                 ) : (
                     <div className='headerContainer'>
@@ -80,7 +96,7 @@ const MovieListPage = () => {
             <main className='moviesListPage'>
                 <div className='sortFilterLine'>
                     <GenreSelect
-                        selectedGenre='all'
+                        selectedGenre={activeGenre}
                         listGenres={GENRES}
                         onSelect={(genre: string) => showGenreMovies(genre)}
                     />
@@ -92,7 +108,7 @@ const MovieListPage = () => {
                     />
                 </div>
                 <div className='moviesList'>
-                    {MOVIES.map((movie) => (
+                    {movieList.map((movie: Movie) => (
                         <MovieTile
                             key={movie.id}
                             onClickMovie={(name) => openDetailInfo(name)}
@@ -109,7 +125,7 @@ const MovieListPage = () => {
                     <EditMovieDialog
                         onClose={() => setShowEditDialog(false)}
                         onReset={() => setShowEditDialog(false)}
-                        movie={selectedMovieProps}
+                        movie={selectedMovie}
                         title='Edit movie'
                         onSubmit={(result) => console.log('submit: ', result)}
                     ></EditMovieDialog>

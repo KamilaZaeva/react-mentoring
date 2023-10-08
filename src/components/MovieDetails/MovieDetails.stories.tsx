@@ -13,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Story: Story = {
     name: 'Default',
     args: {
+        id: 123456,
         imageUrl: 'https://m.media-amazon.com/images/M/MV5BMzUzNDM2NzM2MV5BMl5BanBnXkFtZTgwNTM3NTg4OTE@._V1_.jpg',
         movieName: 'La La Land',
         releaseYear: 2016,
