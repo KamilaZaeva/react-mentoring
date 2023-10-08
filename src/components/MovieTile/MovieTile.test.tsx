@@ -28,6 +28,6 @@ describe('MovieTile', () => {
 
         userEvent.click(container.querySelector('.movieTile')!);
         expect(mockOnClick).toHaveBeenCalledTimes(1);
-        expect(mockOnClick).toHaveBeenCalledWith(props.movieName);
+        expect(mockOnClick).toHaveBeenCalledWith(props.id);
     });
 });

@@ -15,7 +15,7 @@
 }
 
 .genreItem {
-    background-color: var(--dark-grey);
+    background: var(--black);
     width: 100%;
     border-radius: 0;
     box-sizing: content-box;

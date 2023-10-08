@@ -1,0 +1,75 @@
+.headerContainer{
+    height: 396px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--black);
+}
+
+.headerTitle {
+    position: absolute;
+    left: 10%;
+    top: 30%;
+    color: var(--white);
+}
+
+.moviesListPage {
+    width: 100%;
+    background: var(--black);
+    margin-top: 16px;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.blurContainer {
+    width: 1260px;
+    height: 683px;
+    opacity: 0.3;
+    background: url('../../assets/bgr.png') center center no-repeat; /* Center the image */
+    background-size: contain; /* Scale the image proportionally to fit the container */
+    backdrop-filter: blur(4px);
+
+    position: absolute; /* Position the blur container within the header container */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.moviesList {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.exitButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: var(--red);
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+
+    &:after{
+        display: flex;
+        content: "\00d7";
+        width: 24px;
+        height: 24px;
+        font-weight: bold;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.sortFilterLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
