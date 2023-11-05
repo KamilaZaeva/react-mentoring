@@ -15,11 +15,15 @@ import { getMovies } from '../../services/api.service';
 import { Movie } from '../../models/movie';
 
 import { GENRES } from '../../consts';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 
 const MovieListPage = () => {
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [sortCriterion, setSortCriterion] = useState<'releaseDate' | 'title'>('releaseDate');
-    const [activeGenre, setActiveGenre] = useState<string>('all');
+    // const { movieId } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const activeGenre = (searchParams.get('genre') as string) || 'all';
+    const searchQuery = (searchParams.get('query') as string) || '';
+    const sortCriterion = (searchParams.get('sortBy') as 'releaseDate' | 'title') || 'releaseDate';
+
     const [movieList, setMovieList] = useState<Movie[]>([] as Movie[]);
     const [showDetailContainer, setShowDetailContainer] = useState<boolean>(false);
     const [selectedMovie, setSelectedMovie] = useState<Movie>({} as Movie);
@@ -39,14 +43,24 @@ const MovieListPage = () => {
             }));
             setMovieList(formatMovieList);
         });
-    }, [searchQuery, sortCriterion, activeGenre]);
+    }, [searchQuery, sortCriterion, activeGenre, searchParams]);
 
     const searchMovieByName = (name: string): void => {
-        setSearchQuery(name);
+        setSearchParams(
+            createSearchParams({
+                ...Object.fromEntries([...searchParams]),
+                query: name,
+            }),
+        );
     };
 
     const showGenreMovies = (selectedGenre: string): void => {
-        setActiveGenre(selectedGenre);
+        setSearchParams(
+            createSearchParams({
+                ...Object.fromEntries([...searchParams]),
+                genre: selectedGenre,
+            }),
+        );
     };
     const openDetailInfo = (openMovieId: number): void => {
         const selectedMovie: Movie = movieList.filter((movie) => movie.id === openMovieId)[0];
@@ -62,7 +76,12 @@ const MovieListPage = () => {
         setShowDetailContainer((prevState) => (show === undefined ? !prevState : show));
 
     const sortMoviesBy = (sortedBy: 'releaseDate' | 'title'): void => {
-        setSortCriterion(sortedBy);
+        setSearchParams(
+            createSearchParams({
+                ...Object.fromEntries([...searchParams]),
+                sortBy: sortedBy,
+            }),
+        );
     };
 
     const HeaderContainer = () => {
