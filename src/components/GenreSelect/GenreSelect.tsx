@@ -1,7 +1,5 @@
 import './GenreSelect.css';
 
-import { useState } from 'react';
-
 import Button from '../Button/Button';
 
 type GenreSelectProps = {
@@ -11,19 +9,12 @@ type GenreSelectProps = {
 };
 
 const GenreSelect = ({ listGenres, selectedGenre, onSelect }: GenreSelectProps) => {
-    const [activeGenre, setActiveGenre] = useState(selectedGenre);
-
-    const onGenreClick = (genre: string): void => {
-        setActiveGenre(genre);
-        onSelect(genre);
-    };
-
     const genreItems = listGenres.map((genre) => {
-        const className = 'genreItem' + (genre === activeGenre ? ' selected' : '');
+        const className = 'genreItem' + (genre === selectedGenre ? ' selected' : '');
         return (
             <Button
                 key={genre}
-                onClick={() => onGenreClick(genre)}
+                onClick={() => onSelect(genre)}
                 title={genre}
                 className={className}
             />
