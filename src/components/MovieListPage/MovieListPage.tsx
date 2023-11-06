@@ -8,53 +8,32 @@ import SortControl from '../SortControl/SortControl';
 import MovieTile from '../MovieTile/MovieTile';
 import EditMovieDialog from '../EditMovieDialog/EditMovieDialog';
 
-import { getMovieById, getMovies } from '../../services/api.service';
+import { getMovies } from '../../services/api.service';
 
-import { Movie, MovieAPI } from '../../models/movie';
+import { Movie } from '../../models/movie';
 
 import { GENRES } from '../../consts';
 import {
     createSearchParams,
+    Outlet,
     useLocation,
     useNavigate,
-    useParams,
     useSearchParams,
 } from 'react-router-dom';
-import Header from '../Header/Header';
 
 const MovieListPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { movieId } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const activeGenre = (searchParams.get('genre') as string) || 'all';
     const searchQuery = (searchParams.get('query') as string) || '';
     const sortCriterion = (searchParams.get('sortBy') as 'releaseDate' | 'title') || 'releaseDate';
 
     const [movieList, setMovieList] = useState<Movie[]>([] as Movie[]);
-    const [showDetailContainer, setShowDetailContainer] = useState<boolean>(false);
     const [selectedMovie, setSelectedMovie] = useState<Movie>({} as Movie);
     const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
 
     useEffect(() => {
-        if (movieId) {
-            void getMovieById(movieId).then((data: MovieAPI) => {
-                setSelectedMovie({
-                    id: data.id,
-                    movieName: data.title,
-                    releaseYear: +data.release_date.split('-')[0],
-                    genres: data.genres,
-                    voteAverage: data.vote_average,
-                    description: data.overview,
-                    duration: data.runtime,
-                    imageUrl: data.poster_path,
-                });
-                toggleDetailedContainer(true);
-            });
-        } else {
-            toggleDetailedContainer(false);
-        }
-
         void getMovies(searchQuery, sortCriterion, activeGenre).then((data) => {
             const formatMovieList: Movie[] = data.data.map((movieApi) => ({
                 id: movieApi.id,
@@ -68,20 +47,11 @@ const MovieListPage = () => {
             }));
             setMovieList(formatMovieList);
         });
-    }, [searchParams, movieId]);
+    }, [searchParams]);
 
     useEffect(() => {
         window.scrollTo({ top: 0 });
     }, [location]);
-
-    const searchMovieByName = (name: string): void => {
-        setSearchParams(
-            createSearchParams({
-                ...Object.fromEntries([...searchParams]),
-                query: name,
-            }),
-        );
-    };
 
     const showGenreMovies = (selectedGenre: string): void => {
         setSearchParams(
@@ -92,9 +62,6 @@ const MovieListPage = () => {
         );
     };
     ``;
-
-    const toggleDetailedContainer = (show?: boolean) =>
-        setShowDetailContainer((prevState) => (show === undefined ? !prevState : show));
 
     const sortMoviesBy = (sortedBy: 'releaseDate' | 'title'): void => {
         setSearchParams(
@@ -107,12 +74,7 @@ const MovieListPage = () => {
 
     return (
         <>
-            <Header
-                selectedMovie={selectedMovie}
-                onSearchMovieByName={(name) => searchMovieByName(name)}
-                searchQuery={searchQuery}
-                showDetailContainer={showDetailContainer}
-            />
+            <Outlet />
             <main className='moviesListPage'>
                 <div className='sortFilterLine'>
                     <GenreSelect
@@ -131,7 +93,15 @@ const MovieListPage = () => {
                     {movieList.map((movie: Movie) => (
                         <MovieTile
                             key={movie.id}
-                            onClickMovie={(id) => navigate('/' + id)}
+                            onClickMovie={(id) =>
+                                navigate({
+                                    pathname: `/${id}`,
+                                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                                    search: `?${createSearchParams({
+                                        ...Object.fromEntries([...searchParams]),
+                                    })}`,
+                                })
+                            }
                             genres={movie.genres}
                             movieName={movie.movieName}
                             id={movie.id}

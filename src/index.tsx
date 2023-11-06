@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ErrorPage from './components/ErrorPage/ErrorPage';
+import Header from './components/Header/Header';
+import DetailHeaderBlock from './components/Header/DetailHeaderBlock';
 
 const router = createBrowserRouter([
     {
@@ -14,12 +16,12 @@ const router = createBrowserRouter([
         children: [
             {
                 path: ':movieId',
-                element: <App />,
+                element: <DetailHeaderBlock />,
             },
             {
-                path: '',
-                element: <App />,
-            }
+                index: true,
+                element: <Header />,
+            },
         ],
     },
 ]);

@@ -1,43 +1,30 @@
 import './Header.css';
-import { useNavigate } from 'react-router-dom';
 
-import MovieDetails from '../MovieDetails/MovieDetails';
 import SearchForm from '../SearchForm/SearchForm';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 
-import { Movie } from '../../models/movie';
+const Header = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchQuery = (searchParams.get('query') as string) || '';
 
-export type HeaderProps = {
-    showDetailContainer: boolean;
-    selectedMovie: Movie;
-    searchQuery: string;
-    onSearchMovieByName: (name: string) => void;
-};
+    const searchMovieByName = (name: string): void => {
+        setSearchParams(
+            createSearchParams({
+                ...Object.fromEntries([...searchParams]),
+                query: name,
+            }),
+        );
+    };
 
-const Header = ({
-    showDetailContainer,
-    selectedMovie,
-    searchQuery,
-    onSearchMovieByName,
-}: HeaderProps) => {
-    const navigate = useNavigate();
     return (
-        <>
-            {showDetailContainer ? (
-                <>
-                    <span className='exitButton' onClick={() => navigate('/')}></span>
-                    <MovieDetails {...selectedMovie} />
-                </>
-            ) : (
-                <div className='headerContainer'>
-                    <div className='blurContainer'></div>
-                    <h1 className='headerTitle'>FIND YOUR MOVIE</h1>
-                    <SearchForm
-                        initialValue={searchQuery}
-                        searchMovie={(name: string) => onSearchMovieByName(name)}
-                    />
-                </div>
-            )}
-        </>
+        <div className='headerContainer'>
+            <div className='blurContainer'></div>
+            <h1 className='headerTitle'>FIND YOUR MOVIE</h1>
+            <SearchForm
+                initialValue={searchQuery}
+                searchMovie={(name: string) => searchMovieByName(name)}
+            />
+        </div>
     );
 };
 
