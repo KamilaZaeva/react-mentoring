@@ -1,24 +1,31 @@
 import './MovieListPage.css';
 import '../../colors.css';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import GenreSelect from '../GenreSelect/GenreSelect';
 import SortControl from '../SortControl/SortControl';
 import MovieTile from '../MovieTile/MovieTile';
 import EditMovieDialog from '../EditMovieDialog/EditMovieDialog';
-import MovieDetails from '../MovieDetails/MovieDetails';
-import SearchForm from '../SearchForm/SearchForm';
 
-import { getMovies } from '../../services/api.service';
+import { getMovieById, getMovies } from '../../services/api.service';
 
-import { Movie } from '../../models/movie';
+import { Movie, MovieAPI } from '../../models/movie';
 
 import { GENRES } from '../../consts';
-import { createSearchParams, useSearchParams } from 'react-router-dom';
+import {
+    createSearchParams,
+    useLocation,
+    useNavigate,
+    useParams,
+    useSearchParams,
+} from 'react-router-dom';
+import Header from '../Header/Header';
 
 const MovieListPage = () => {
-    // const { movieId } = useParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { movieId } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const activeGenre = (searchParams.get('genre') as string) || 'all';
     const searchQuery = (searchParams.get('query') as string) || '';
@@ -30,6 +37,24 @@ const MovieListPage = () => {
     const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
 
     useEffect(() => {
+        if (movieId) {
+            void getMovieById(movieId).then((data: MovieAPI) => {
+                setSelectedMovie({
+                    id: data.id,
+                    movieName: data.title,
+                    releaseYear: +data.release_date.split('-')[0],
+                    genres: data.genres,
+                    voteAverage: data.vote_average,
+                    description: data.overview,
+                    duration: data.runtime,
+                    imageUrl: data.poster_path,
+                });
+                toggleDetailedContainer(true);
+            });
+        } else {
+            toggleDetailedContainer(false);
+        }
+
         void getMovies(searchQuery, sortCriterion, activeGenre).then((data) => {
             const formatMovieList: Movie[] = data.data.map((movieApi) => ({
                 id: movieApi.id,
@@ -43,7 +68,11 @@ const MovieListPage = () => {
             }));
             setMovieList(formatMovieList);
         });
-    }, [searchQuery, sortCriterion, activeGenre, searchParams]);
+    }, [searchParams, movieId]);
+
+    useEffect(() => {
+        window.scrollTo({ top: 0 });
+    }, [location]);
 
     const searchMovieByName = (name: string): void => {
         setSearchParams(
@@ -62,15 +91,7 @@ const MovieListPage = () => {
             }),
         );
     };
-    const openDetailInfo = (openMovieId: number): void => {
-        const selectedMovie: Movie = movieList.filter((movie) => movie.id === openMovieId)[0];
-
-        setSelectedMovie({ ...selectedMovie });
-
-        toggleDetailedContainer(true);
-        window.scrollTo(0, 0);
-        // setShowEditDialog(true);
-    };
+    ``;
 
     const toggleDetailedContainer = (show?: boolean) =>
         setShowDetailContainer((prevState) => (show === undefined ? !prevState : show));
@@ -84,34 +105,14 @@ const MovieListPage = () => {
         );
     };
 
-    const HeaderContainer = () => {
-        return (
-            <>
-                {showDetailContainer ? (
-                    <>
-                        <span
-                            className='exitButton'
-                            onClick={() => toggleDetailedContainer()}
-                        ></span>
-                        <MovieDetails {...selectedMovie} />
-                    </>
-                ) : (
-                    <div className='headerContainer'>
-                        <div className='blurContainer'></div>
-                        <h1 className='headerTitle'>FIND YOUR MOVIE</h1>
-                        <SearchForm
-                            initialValue={searchQuery}
-                            searchMovie={(name: string) => searchMovieByName(name)}
-                        />
-                    </div>
-                )}
-            </>
-        );
-    };
-
     return (
         <>
-            <HeaderContainer />
+            <Header
+                selectedMovie={selectedMovie}
+                onSearchMovieByName={(name) => searchMovieByName(name)}
+                searchQuery={searchQuery}
+                showDetailContainer={showDetailContainer}
+            />
             <main className='moviesListPage'>
                 <div className='sortFilterLine'>
                     <GenreSelect
@@ -130,7 +131,7 @@ const MovieListPage = () => {
                     {movieList.map((movie: Movie) => (
                         <MovieTile
                             key={movie.id}
-                            onClickMovie={(name) => openDetailInfo(name)}
+                            onClickMovie={(id) => navigate('/' + id)}
                             genres={movie.genres}
                             movieName={movie.movieName}
                             id={movie.id}
