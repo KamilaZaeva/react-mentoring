@@ -6,7 +6,7 @@ import { Movie } from '../../models/movie';
 import Button from '../Button/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { addMovie, updateMovie } from '../../services/api.service';
-import { useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 
 export type MovieFormProps = {
     movie: Movie | undefined;
@@ -21,6 +21,7 @@ const MovieForm = ({ movie }: MovieFormProps) => {
         reset,
     } = useForm<Movie>();
 
+    const [searchParams] = useSearchParams();
     const [editedMovie, updateEditedMovie] = useState<Movie>(movie ?? ({} as Movie));
 
     useEffect(() => {
@@ -35,6 +36,10 @@ const MovieForm = ({ movie }: MovieFormProps) => {
         if (addedMovie.id) {
             navigate({
                 pathname: `/${addedMovie.id}`,
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                search: `?${createSearchParams({
+                    ...Object.fromEntries([...searchParams]),
+                })}`,
             });
         }
     };
