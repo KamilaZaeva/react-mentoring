@@ -6,9 +6,8 @@ import React, { useEffect, useState } from 'react';
 import GenreSelect from '../GenreSelect/GenreSelect';
 import SortControl from '../SortControl/SortControl';
 import MovieTile from '../MovieTile/MovieTile';
-import EditMovieDialog from '../EditMovieDialog/EditMovieDialog';
 
-import { getMovies } from '../../services/api.service';
+import {getMovies, transformMovieAPIToMovie} from '../../services/api.service';
 
 import { Movie } from '../../models/movie';
 
@@ -30,21 +29,10 @@ const MovieListPage = () => {
     const sortCriterion = (searchParams.get('sortBy') as 'releaseDate' | 'title') || 'releaseDate';
 
     const [movieList, setMovieList] = useState<Movie[]>([] as Movie[]);
-    const [selectedMovie, setSelectedMovie] = useState<Movie>({} as Movie);
-    const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
 
     useEffect(() => {
         void getMovies(searchQuery, sortCriterion, activeGenre).then((data) => {
-            const formatMovieList: Movie[] = data.data.map((movieApi) => ({
-                id: movieApi.id,
-                movieName: movieApi.title,
-                releaseYear: +movieApi.release_date.split('-')[0],
-                genres: movieApi.genres,
-                voteAverage: movieApi.vote_average,
-                description: movieApi.overview,
-                duration: movieApi.runtime,
-                imageUrl: movieApi.poster_path,
-            }));
+            const formatMovieList: Movie[] = data.data.map((movieApi) => (transformMovieAPIToMovie(movieApi)));
             setMovieList(formatMovieList);
         });
     }, [searchParams]);
@@ -110,16 +98,6 @@ const MovieListPage = () => {
                         />
                     ))}
                 </div>
-
-                {showEditDialog && (
-                    <EditMovieDialog
-                        onClose={() => setShowEditDialog(false)}
-                        onReset={() => setShowEditDialog(false)}
-                        movie={selectedMovie}
-                        title='Edit movie'
-                        onSubmit={(result) => console.log('submit: ', result)}
-                    ></EditMovieDialog>
-                )}
             </main>
         </>
     );

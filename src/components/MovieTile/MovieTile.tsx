@@ -17,7 +17,7 @@ const MovieTile = ({
     genres,
     onClickMovie,
 }: MovieTileProps) => {
-    const genresList = genres.join(', ');
+    const genresList = genres?.join(', ') || '';
 
     return (
         <button className='movieTile' onClick={() => onClickMovie(id)}>

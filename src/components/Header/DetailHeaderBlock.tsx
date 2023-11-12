@@ -23,7 +23,7 @@ const DetailHeaderBlock = () => {
                     movieName: data.title,
                     releaseYear: +data.release_date.split('-')[0],
                     genres: data.genres,
-                    voteAverage: data.vote_average,
+                    voteAverage: String(data.vote_average),
                     description: data.overview,
                     duration: data.runtime,
                     imageUrl: data.poster_path,

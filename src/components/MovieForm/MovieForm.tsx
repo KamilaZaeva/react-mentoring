@@ -1,36 +1,62 @@
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import './MovieForm.css';
 
 import { Movie } from '../../models/movie';
 import Button from '../Button/Button';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { addMovie, updateMovie } from '../../services/api.service';
+import { useNavigate } from 'react-router-dom';
 
 export type MovieFormProps = {
-    movie?: Movie | null;
-    onSubmit: (editedMovie?: Movie) => void;
-    onReset: () => void;
+    movie: Movie | undefined;
 };
 
-const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
+const MovieForm = ({ movie }: MovieFormProps) => {
+    const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<Movie>();
+
     const [editedMovie, updateEditedMovie] = useState<Movie>(movie ?? ({} as Movie));
 
-    const handleSubmitForm = (event: any) => {
-        console.log(event);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-        event?.preventDefault();
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-        onSubmit(Object.fromEntries(new FormData(event?.target)) as unknown as Movie);
+    useEffect(() => {
+        updateEditedMovie(movie ?? ({} as Movie));
+        if (movie) {
+            reset(movie);
+        }
+    }, [movie]);
+
+    const onSubmit: SubmitHandler<Movie> = async (data: Movie) => {
+        const addedMovie = movie ? await updateMovie(data) : await addMovie(data);
+        if (addedMovie.id) {
+            navigate({
+                pathname: `/${addedMovie.id}`,
+            });
+        }
+    };
+
+    const onReset = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        reset();
     };
 
     const handleChange = (
         event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     ) => {
         const { name, value } = event.target;
-        updateEditedMovie((prevFormData) => ({ ...prevFormData, [name]: name === 'releaseYear' || name === 'duration' ? parseInt(value, 10) : value }));
+        updateEditedMovie((prevFormData) => ({
+            ...prevFormData,
+            [name]: name === 'releaseYear' || name === 'duration' ? parseInt(value, 10) : value,
+        }));
     };
 
     return (
-        <form onSubmit={handleSubmitForm} onReset={onReset} className='formEditMovie'>
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        <form onSubmit={handleSubmit(onSubmit)} className='formEditMovie'>
             <div className='dialogBody'>
                 <div className='row'>
                     <div className='colLeft'>
@@ -39,11 +65,11 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
                                 Title
                                 <input
                                     type='text'
-                                    name='movieName'
                                     placeholder='Movie title'
                                     className='inputForm'
-                                    value={editedMovie?.movieName}
-                                    onChange={(event) => handleChange(event)}
+                                    defaultValue=''
+                                    required={true}
+                                    {...register('movieName')}
                                 />
                             </label>
                         </div>
@@ -55,11 +81,11 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
                                 Release date
                                 <input
                                     type='text'
-                                    name='releaseYear'
                                     placeholder='2000'
                                     className='inputForm'
-                                    value={editedMovie?.releaseYear}
-                                    onChange={(event) => handleChange(event)}
+                                    defaultValue=''
+                                    required={true}
+                                    {...register('releaseYear')}
                                 />
                             </label>
                         </div>
@@ -73,11 +99,11 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
                                 Movie url
                                 <input
                                     type='text'
-                                    name='movieUrl'
                                     placeholder='Movie url'
                                     className='inputForm'
-                                    value={editedMovie?.movieUrl}
-                                    onChange={(event) => handleChange(event)}
+                                    defaultValue=''
+                                    required={true}
+                                    {...register('imageUrl')}
                                 />
                             </label>
                         </div>
@@ -89,11 +115,11 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
                                 Rating
                                 <input
                                     type='text'
-                                    name='voteAverage'
                                     placeholder='9,9'
                                     className='inputForm'
-                                    value={editedMovie?.voteAverage}
-                                    onChange={(event) => handleChange(event)}
+                                    defaultValue=''
+                                    required={true}
+                                    {...register('voteAverage')}
                                 />
                             </label>
                         </div>
@@ -106,10 +132,15 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
                             <label>
                                 Genre
                                 <select
-                                    name='genre'
-                                    className={'selectInputForm ' + (editedMovie?.genre === undefined ? 'selectInputForm__grey' : '')}
-                                    value={editedMovie?.genre || ''}
-                                    onChange={(event) => handleChange(event)}
+                                    className={
+                                        'selectInputForm ' +
+                                        (editedMovie?.genre === undefined
+                                            ? 'selectInputForm__grey'
+                                            : '')
+                                    }
+                                    defaultValue=''
+                                    required={true}
+                                    {...register('genre')}
                                 >
                                     <option value='' disabled>
                                         Select genre
@@ -129,11 +160,11 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
                                 Runtime
                                 <input
                                     type='text'
-                                    name='duration'
                                     placeholder='minutes'
                                     className='inputForm'
-                                    value={editedMovie?.duration}
-                                    onChange={(event) => handleChange(event)}
+                                    defaultValue=''
+                                    required={true}
+                                    {...register('duration')}
                                 />
                             </label>
                         </div>
@@ -145,11 +176,11 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
                         <label>
                             Overview
                             <textarea
-                                name='description'
                                 placeholder='Movie description'
                                 className='inputForm'
-                                value={editedMovie?.description}
-                                onChange={(event) => handleChange(event)}
+                                defaultValue=''
+                                required={true}
+                                {...register('description')}
                             />
                         </label>
                     </div>
@@ -157,8 +188,12 @@ const MovieForm = ({ movie, onReset, onSubmit }: MovieFormProps) => {
             </div>
 
             <div className='dialogFooter'>
-                <Button className='buttonOutline' title='Reset' onClick={onReset}></Button>
-                <Button title='Submit' onClick={onSubmit}></Button>
+                <Button
+                    className='buttonOutline'
+                    title='Reset'
+                    onClick={(e) => onReset(e)}
+                ></Button>
+                <Button title='Submit' onClick={() => onSubmit}></Button>
             </div>
         </form>
     );
