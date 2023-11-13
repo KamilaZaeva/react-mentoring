@@ -198,7 +198,7 @@ const MovieForm = ({ movie }: MovieFormProps) => {
                     title='Reset'
                     onClick={(e) => onReset(e)}
                 ></Button>
-                <Button title='Submit' onClick={() => onSubmit}></Button>
+                <Button title='Submit' className='submitButton' onClick={() => onSubmit}></Button>
             </div>
         </form>
     );
