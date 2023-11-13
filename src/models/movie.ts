@@ -3,7 +3,7 @@ export interface Movie {
     imageUrl: string;
     movieName: string;
     releaseYear: number;
-    voteAverage: number;
+    voteAverage: string;
     duration: number;
     description: string;
     movieUrl?: string;
