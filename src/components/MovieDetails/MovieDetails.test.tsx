@@ -3,6 +3,7 @@ import MovieDetails from './MovieDetails';
 
 describe('MovieDetails', () => {
     const mockMovieDetailsProps = {
+        id: 123456,
         imageUrl: 'https://example.com/movie-poster.jpg',
         movieName: 'Test Movie',
         releaseYear: 2021,

@@ -33,7 +33,7 @@ const SearchForm = ({ initialValue, searchMovie }: SearchFormProps) => {
                 placeholder='What do you want to watch?'
                 onKeyDown={(e) => handleKeyDown(e.code)}
             />
-            <Button title='Search' onClick={onSearchClick} />
+            <Button title='Search' className='searchButton' onClick={onSearchClick} />
         </div>
     );
 };
