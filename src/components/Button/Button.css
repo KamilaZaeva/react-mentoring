@@ -30,3 +30,14 @@
     color: var(--red);
     border: 1px solid var(--red);
 }
+
+.buttonGhost {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: var(--dark-grey);
+    opacity: 0.8;
+    color: var(--red);
+    width: 177px;
+    height: 42px;
+}

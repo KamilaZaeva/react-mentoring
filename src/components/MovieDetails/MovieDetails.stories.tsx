@@ -17,7 +17,7 @@ export const Story: Story = {
         imageUrl: 'https://m.media-amazon.com/images/M/MV5BMzUzNDM2NzM2MV5BMl5BanBnXkFtZTgwNTM3NTg4OTE@._V1_.jpg',
         movieName: 'La La Land',
         releaseYear: 2016,
-        voteAverage: 8,
+        voteAverage: '8',
         genres: ['Documentary', 'Love'],
         duration: 128,
         description:

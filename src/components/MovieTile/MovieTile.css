@@ -39,5 +39,27 @@
         font-size: 14px;
         text-align: left;
     }
+}
 
+.editButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: var(--red);
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+
+    &:after {
+        display: flex;
+        content: '\270E';
+        width: 24px;
+        height: 24px;
+        font-weight: bold;
+        justify-content: center;
+        align-items: center;
+    }
 }

@@ -7,7 +7,7 @@ describe('MovieDetails', () => {
         imageUrl: 'https://example.com/movie-poster.jpg',
         movieName: 'Test Movie',
         releaseYear: 2021,
-        voteAverage: 8.5,
+        voteAverage: '8.5',
         genres: ['123', '456'],
         duration: 125,
         description: 'A test movie for testing purposes.',

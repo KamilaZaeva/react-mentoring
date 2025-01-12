@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import Header from './components/Header/Header';
 import DetailHeaderBlock from './components/Header/DetailHeaderBlock';
+import MovieDialog from "./components/MovieDialog/MovieDialog";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,24 @@ const router = createBrowserRouter([
             {
                 path: ':movieId',
                 element: <DetailHeaderBlock />,
+            },
+            {
+                path: '/new',
+                element: (
+                    <>
+                        <Header />
+                        <MovieDialog></MovieDialog>
+                    </>
+                ),
+            },
+            {
+                path: '/new/:movieId',
+                element: (
+                    <>
+                        <Header />
+                        <MovieDialog></MovieDialog>
+                    </>
+                ),
             },
             {
                 index: true,

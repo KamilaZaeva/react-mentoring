@@ -1,4 +1,6 @@
 import './MovieTile.css';
+import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import React from 'react';
 
 export type MovieTileProps = {
     id: number;
@@ -17,10 +19,26 @@ const MovieTile = ({
     genres,
     onClickMovie,
 }: MovieTileProps) => {
-    const genresList = genres.join(', ');
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const genresList = genres?.join(', ') || '';
 
     return (
         <button className='movieTile' onClick={() => onClickMovie(id)}>
+            <span
+                className='editButton'
+                onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    navigate({
+                        pathname: `/new/${id}`,
+                        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                        search: `?${createSearchParams({
+                            ...Object.fromEntries([...searchParams]),
+                        })}`,
+                    });
+                }}
+            ></span>
             <img className='movieTile__poster' src={imageUrl} alt={movieName} />
             <div className='movieTile__nameContainer'>
                 <div className='movieName'>{movieName}</div>
