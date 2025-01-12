@@ -1,0 +1,9 @@
+.deleteDialogBody {
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+}
+
+.deleteDialogBody .myButton {
+    align-self: end;
+}

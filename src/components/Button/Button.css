@@ -24,3 +24,9 @@
 .selected {
     border-bottom: 4px solid var(--red);
 }
+
+.buttonOutline {
+    background-color: initial;
+    color: var(--red);
+    border: 1px solid var(--red);
+}
