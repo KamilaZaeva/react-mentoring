@@ -32,4 +32,10 @@ describe('Movie List Page e2e', () => {
             expect($genres.text().toLowerCase()).to.contain(selectedGenre);
         });
     });
+
+    it('should navigate to movie detail page on tile click', () => {
+        cy.intercept('GET', '/api/movies', { fixture: 'movies.json' });
+        cy.get('.moviesList .movieTile').first().click();
+        cy.url().should('match', /\/\d+$/); // Ensure the URL matches the movie detail page pattern, e.g., '/1'
+    });
 });
